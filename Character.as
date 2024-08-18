@@ -1,4 +1,4 @@
-﻿class Character{
+﻿class Character {
 	public var id:Number;
 	public var x:Number;
 	public var y:Number;
@@ -32,11 +32,12 @@
 	public var temp:Number;
 	public var heated:Number;
 	public var heatSpeed:Number;
-	public function Character(tid:Number,tx:Number, ty:Number, tpx:Number, tpy:Number, tvx:Number, tvy:Number, tonob:Boolean,
-	tdire:Number,tcarry:Boolean, tcarryObject:Number, tcarriedBy:Number, tlandTimer:Number, tdeathTimer:Number,tcharState:Number,
+
+	public function Character(tid:Number, tx:Number, ty:Number, tpx:Number, tpy:Number, tvx:Number, tvy:Number, tonob:Boolean,
+	tdire:Number, tcarry:Boolean, tcarryObject:Number, tcarriedBy:Number, tlandTimer:Number, tdeathTimer:Number, tcharState:Number,
 	tstandingOn:Number, tstoodOnBy:Array, tw:Number, th:Number, tweight:Number, tweight2:Number, th2:Number,
-	tatEnd:Boolean, tfriction:Number, tfricGoal:Number, tjustChanged:Number,tspeed:Number,tbuttonsPressed:Array, tpcharState:Number,
-	tsubmerged:Number, ttemp:Number, theated:Number,theatSpeed:Number){
+	tatEnd:Boolean, tfriction:Number, tfricGoal:Number, tjustChanged:Number, tspeed:Number, tbuttonsPressed:Array, tpcharState:Number,
+	tsubmerged:Number, ttemp:Number, theated:Number, theatSpeed:Number) {
 		id = tid;
 		x = tx;
 		y = ty;
@@ -71,50 +72,60 @@
 		heated = theated;
 		heatSpeed = theatSpeed;
 	}
-	function applyForces(grav:Number, control:Boolean,waterUpMaxSpeed:Number){
+
+	function applyForces(grav:Number, control:Boolean, waterUpMaxSpeed:Number) {
 		var gravity:Number;
-		if(grav >= 0) gravity = Math.sqrt(grav);
-		if(grav < 0) gravity = -Math.sqrt(-grav);
-		if(!onob && submerged != 1) vy = Math.min(vy+gravity,25);
-		if(onob || control){
-			vx = (vx-fricGoal)*friction+fricGoal;
-		}else{
-			vx *= 1-(1-friction)*0.12;
+		if (grav >= 0) gravity = Math.sqrt(grav);
+		if (grav < 0) gravity = -Math.sqrt(-grav);
+		if (!onob && submerged != 1) vy = Math.min(vy + gravity, 25);
+
+		if (onob || control) {
+			vx = (vx - fricGoal) * friction + fricGoal;
+		} else {
+			vx *= 1 - (1 - friction) * 0.12;
 		}
-		if(Math.abs(vx) < 0.01){
+
+		if (Math.abs(vx) < 0.01) {
 			vx = 0;
 		}
-		if(submerged == 1){
+
+		if (submerged == 1) {
 			vy = 0;
-			if(weight2 > 0.18) submerged = 2;
-		}else if(submerged >= 2){
-			if(vx > 1.5) vx = 1.5;
-			if(vx < -1.5) vx = -1.5;
-			if(vy > 1.8) vy = 1.8;
-			if(vy < -waterUpMaxSpeed) vy = -waterUpMaxSpeed;
+			if (weight2 > 0.18) submerged = 2;
+		} else if (submerged >= 2) {
+			if (vx > 1.5) vx = 1.5;
+			if (vx < -1.5) vx = -1.5;
+			if (vy > 1.8) vy = 1.8;
+			if (vy < -waterUpMaxSpeed) vy = -waterUpMaxSpeed;
 		}
 	}
-	function charMove(){
+
+	function charMove() {
 		y += vy;
 		x += vx;
 	}
-	function moveHorizontal(power){
-		if(power*fricGoal <= 0 && !onob){
+
+	function moveHorizontal(power) {
+		if (power * fricGoal <= 0 && !onob) {
 			fricGoal = 0;
 		}
+
 		vx += power;
-		if(power < 0) dire = 1;
-		if(power > 0) dire = 3;
+		if (power < 0) dire = 1;
+		if (power > 0) dire = 3;
 		justChanged = 2;
 	}
-	function stopMoving(){
-		if(dire == 1) dire = 2;
-		if(dire == 3) dire = 4;
+
+	function stopMoving() {
+		if (dire == 1) dire = 2;
+		if (dire == 3) dire = 4;
 	}
-	function jump(jumpPower:Number){
+
+	function jump(jumpPower:Number) {
 		vy = jumpPower;
 	}
-	function swimUp(jumpPower:Number){
-		vy -= weight2+jumpPower;
+
+	function swimUp(jumpPower:Number) {
+		vy -= weight2 + jumpPower;
 	}
 }
